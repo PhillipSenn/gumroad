@@ -1,0 +1,36 @@
+#partA .square {
+  float:left;
+}
+#partA .property {
+  height:44px;
+}
+#partB, #partC {
+  float:left;
+  width:9%;
+}
+#partB .square, #partC .square {
+  width:100%;
+}
+#partD {
+  clear:left;
+}
+#partD .square {
+  float:left;
+}
+
+
+
+.form-control {
+	font-size:19px;
+	width:50%;
+	float:left;
+}
+#SaveArea {
+	float:left;
+	width:30%;
+	margin-left:1%;
+	margin-top:1em;
+}
+.form-group {
+	margin-bottom:0px;
+}

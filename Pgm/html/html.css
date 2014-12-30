@@ -1,0 +1,38 @@
+#columnA {
+	border-right:1px solid #000;
+}
+textarea {
+	font-family: 'Inconsolata';
+}
+.highlight {
+	background-color:LightSteelBlue;
+}
+.pre {
+	white-space:pre;
+}
+#result {
+	background-color:steelBlue;
+}
+legend {
+	background-color:white;
+	border:1px solid #000;
+	border-radius: 6px;
+}
+
+
+
+canvas {
+	border:10px groove gray
+}
+#output {
+	background-color:white;
+	height:250px;
+	overflow:auto
+}
+.modal-content {
+	border-radius: 24px
+}
+.modal-header {
+	border-top-left-radius: 24px;
+	border-top-right-radius: 24px
+}

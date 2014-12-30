@@ -1,0 +1,47 @@
+body {
+	padding-top:115px;
+}
+.msg {
+	height:60px;
+}
+#myTable td {
+	text-align:center;
+}
+#myTable .empty {
+	background-color:#000;
+}
+td.letter {
+	cursor:pointer;
+}
+#cursor {
+  color: #ffffff;
+  background-color: #428bca !important; 
+  border-color: #428bca;
+}
+.navbar {
+	padding-left:0px;
+	padding-right:0px;
+}
+.progress {
+	margin-bottom:0px;
+}
+td {
+	width:4.76%;
+	height:57px;
+}
+#Earned {
+	position:absolute;
+	top:70px;
+	right:0;
+}
+#letters {
+	font-family:"Courier New", Courier, monospace;
+}
+#hint {
+	color:#ffffff;
+	background-color:#428bca;
+	border:1px solid #357ebd;
+}
+.row {
+	margin-left:0px;
+}

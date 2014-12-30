@@ -1,0 +1,14 @@
+#output {
+	height:450px;
+}
+#result {
+	background-color:ForestGreen;
+}
+#LectureNotes legend {
+	background-color:steelBlue;
+	color:white;
+}
+.btn {
+	display:block;
+	margin-top:1em;
+}

@@ -1,0 +1,46 @@
+#partA .square {
+  float:left;
+}
+#partA .property {
+  height:44px;
+}
+#partB, #partC {
+  float:left;
+  width:9%;
+}
+#partB .square, #partC .square {
+  width:100%;
+}
+#partD {
+  clear:left;
+}
+#partD .square {
+  float:left;
+}
+
+
+
+#htmlCode {
+	float:left;
+	width:40%;
+}
+#cssCode {
+	float:left;
+	width:40%;
+	margin-left:1%;
+}
+
+textarea {
+	width:99%;
+}
+h1 {
+	font-size:1.1em;
+	padding-left:5em;
+	margin-top:10px;
+}
+.form-control {
+	font-size:19px;
+}
+.form-group {
+	margin-bottom:0px;
+}

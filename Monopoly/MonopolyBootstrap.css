@@ -1,0 +1,117 @@
+.row {
+	margin-left:0px;
+}
+.playarea {
+	border:1px solid #000;
+	height:100px;
+	font-size:16px;
+	padding-left:0px;
+	cursor:pointer;
+	background-repeat:no-repeat;
+	background-position:bottom;
+}
+.playarea:hover {
+	background-color:#3E3433;
+	color:#fff;
+}
+.lightBlue {
+	background-color:#AAE0FA;
+}
+.brown {
+	background-color:#955436;
+}
+.blue {
+	background-color:#0072BB;
+}
+.pink {
+	background-color:#D93A96;
+}
+.orange {
+	background-color:#F7941D;
+}
+.red {
+	background-color:#ED1B24;
+}
+.yellow {
+	background-color:#FEF200;
+}
+.green {
+	background-color:#1FB25A;
+}
+.leftHeader {
+	height:100px;
+	width:24px;
+	float:left;
+	margin-right:3px;
+	border-right:2px solid #000;
+}
+.rightHeader {
+	height:100px;
+	width:24px;
+	float:right;
+	border-left:2px solid #000;
+}
+.col-sm-1 {
+	padding-right:0px;
+}
+.bottomHeader {
+	margin-top:29px;
+	border-top:2px solid #000;
+}
+.borderBottom  {
+	border-bottom:2px solid #000;
+}
+.topHeader {
+	border-bottom:2px solid #000;
+}
+.PENNSYLVANIA {
+	font-size:15px;
+}
+.property {
+	margin-left:3px;
+}
+.communityChest {
+	background-image:url(CommunityChest.jpg);
+}
+.chance1 {
+	background-image:url(Chance1.jpg);
+}
+.chance2 {
+	background-image:url(Chance2.jpg);
+}
+.chance3 {
+	background-image:url(Chance3.jpg);
+}
+.railroad1 {
+	background-image:url(RR1.jpg);
+}
+.railroad2 {
+	background-image:url(RR2.jpg);
+}
+.railroad3 {
+	background-image:url(RR3.jpg);
+}
+.railroad4 {
+	background-image:url(RR4.jpg);
+}
+.electricCompany {
+	background-image:url(Electric.jpg);
+}
+.waterWorks {
+	background-image:url(WaterWorks.jpg);
+}
+.luxuryTax {
+	background-image:url(LuxuryTax.jpg);
+}
+.jail {
+	background-image:url(Jail.jpg);
+}
+.gotoJail {
+	background-image:url(gotoJail.jpg);
+}
+.GO {
+	background-image:url(GO.jpg);
+}
+.freeParking {
+	background-image:url(FreeParking.jpg);
+}

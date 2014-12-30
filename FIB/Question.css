@@ -1,0 +1,51 @@
+.keyboard {
+	margin-bottom:1em;
+	font-family:"Courier New", Courier, monospace;
+}
+#UsrName {
+	letter-spacing: 0.4em;
+	font-family:Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", monospace;
+}
+.keyboard .btn {
+	font-weight:bold;
+}
+#Earned {
+	font-family: 'Homemade Apple', cursive;
+	font-size:144px;
+}
+h2 {
+	font-family:Constantia, "Lucida Bright", "DejaVu Serif", Georgia, serif;
+}
+
+#UsrName .btn {
+	font-size:25px;
+	margin-right:4px;
+}
+.navbar-fixed-bottom {
+	margin-left:1em;
+}
+.flip {
+	transform: rotateY(180deg);
+}
+#UsrName {
+	margin-left:2em;
+}
+/* Flaired edges, by Tomas Theunissen */
+		
+hr {
+    height: 30px;
+    border-style: solid;
+    border-color: black;
+    border-width: 1px 0 0 0;
+    border-radius: 20px;
+}
+hr:before { /* Not really supposed to work, but does */
+    display: block;
+    content: "";
+    height: 30px;
+    margin-top: -31px;    
+    border-style: solid;
+    border-color: black;
+    border-width: 0 0 1px 0;
+    border-radius: 20px;
+}

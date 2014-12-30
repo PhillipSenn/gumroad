@@ -1,0 +1,23 @@
+canvas {
+	border:10px groove gray
+}
+.pre {
+	white-space:pre !important;
+	font-family: monospace !important;
+	display: block !important;
+	unicode-bidi: embed !important;
+}
+#bottom {
+	height:190px;
+	overflow-y:scroll;
+}
+body {
+	margin-bottom:0px;
+}
+.form-group {
+	margin-bottom:0px;
+}
+.overflowHidden {
+	overflow:hidden;
+}
+

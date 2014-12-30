@@ -1,0 +1,354 @@
+USE LR2014Fall2
+
+set nocount on
+set statistics time off
+set statistics io off
+SET ANSI_NULL_DFLT_OFF ON -- All columns default to NOT NULL
+
+if exists (select * from sysobjects where id = object_id(N'Audit') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+DROP TABLE Audit
+if exists (select * from sysobjects where id = object_id(N'Table') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+DROP TABLE [Table]
+if exists (select * from sysobjects where id = object_id(N'LogVarchar') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+DROP TABLE LogVarchar
+if exists (select * from sysobjects where id = object_id(N'LogInt') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+DROP TABLE LogInt
+if exists (select * from sysobjects where id = object_id(N'LogDate') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+DROP TABLE LogDate
+GO
+
+
+create table Audit(
+ AuditID Int Identity Primary Key NONCLUSTERED
+,AuditName Varchar(128)
+,AuditSort Int
+,AuditDateTime DateTime default getdate()
+,Audit_UsrID Int
+,Audit_ActID Int
+,Audit_QuestionID Int
+,Audit_AnswerID Int
+,Audit_AssignmentID Int
+,Audit_PaperID Int
+,Audit_GuessID Int
+,Audit_CatID Int
+,Audit_CourseID Int
+,Audit_ScaleID Int
+)
+GO
+local.UsrID = 0
+local.ActID = 0
+local.QuestionID = 0
+local.AnswerID = 0
+local.AssignmentID = 0
+local.PaperID = 0
+local.GuessID = 0
+local.CatID = 0
+local.CourseID = 0
+local.ScaleID = 0
+if (isDefined('session.Usr')) local.UsrID = session.Usr.UsrID
+if (isDefined('form.ActID')) local.ActID = form.ActID
+if (isDefined('form.QuestionID')) local.QuestionID = form.QuestionID
+if (isDefined('form.AnswerID')) local.AnswerID = form.AnswerID
+if (isDefined('form.AssignmentID')) local.AssignmentID = form.AssignmentID
+if (isDefined('form.PaperID')) local.PaperID = form.PaperID
+if (isDefined('form.GuessID')) local.GuessID = form.GuessID
+if (isDefined('form.CatID')) local.CatID = form.CatID
+if (isDefined('form.CourseID')) local.CourseID = form.CourseID
+if (isDefined('form.ScaleID')) local.ScaleID = form.ScaleID
+
+	sql = 'INSERT INTO Audit
+	(AuditName,AuditSort
+	,Audit_UsrID,Audit_ActID,Audit_QuestionID,Audit_AnswerID,Audit_AssignmentID,Audit_PaperID,Audit_GuessID,Audit_CatID,Audit_CourseID,Audit_ScaleID) 
+	VALUES(?,?,?,?,?,?,?,?,?,?,?,?)
+	'
+params = [
+	 local.AuditName
+	,local.AuditSort
+	,local.UsrID
+	,local.ActID
+	,local.QuestionID
+	,local.AnswerID
+	,local.AssignmentID
+	,local.PaperID
+	,local.GuessID
+	,local.CatID
+	,local.CourseID
+	,local.ScaleID
+]
+
+CREATE TABLE [Table](
+TableID Int Identity(101,1) Primary Key NONCLUSTERED
+,TableName Varchar(128)
+)
+GO
+SET Identity_Insert [Table] ON
+INSERT INTO [Table](TableID,TableName) VALUES(0,'')
+SET Identity_Insert [Table] OFF
+INSERT INTO [Table](TableName) VALUES('Usr')
+INSERT INTO [Table](TableName) VALUES('Act')
+INSERT INTO [Table](TableName) VALUES('Question')
+INSERT INTO [Table](TableName) VALUES('Answer')
+INSERT INTO [Table](TableName) VALUES('Assignment')
+INSERT INTO [Table](TableName) VALUES('Paper')
+INSERT INTO [Table](TableName) VALUES('Guess')
+INSERT INTO [Table](TableName) VALUES('Cat')
+INSERT INTO [Table](TableName) VALUES('Course')
+INSERT INTO [Table](TableName) VALUES('Scale')
+GO
+CREATE TABLE [Field](
+FieldID Int Identity(1001,1) Primary Key NONCLUSTERED
+,Field_TableID Int
+,FieldName Varchar(128)
+GO
+
+CREATE TABLE LogVarchar(
+ LogVarcharID Int Identity Primary Key NONCLUSTERED
+,LogVarcharDateTime DateTime default getdate()
+,LogVarchar_UsrID Int
+,LogVarchar_FieldID Int
+,LogVarcharPrimaryKey Int
+,LogVarcharName Varchar(128)
+)
+GO
+CREATE TABLE LogInt(
+LogIntID Int Identity Primary Key NONCLUSTERED
+,LogIntDateTime DateTime default getdate()
+,LogInt_UsrID Int
+,LogInt_FieldID Int
+,LogIntPrimaryKey Int
+,LogIntSort Int
+)
+GO
+CREATE TABLE LogDate(
+LogDateID Int Identity Primary Key NONCLUSTERED
+,LogDateDateTime DateTime default getdate()
+,LogDate_UsrID Int
+,LogDate_FieldID Int
+,LogDatePrimaryKey Int
+,LogDateSort Int
+)
+GO
+
+
+
+
+
+
+
+
+
+
+function Save(arg) {
+	local.UsrID = 0
+	local.FieldID = 0
+	local.PrimaryKey = 0
+	local.LogVarcharName = ''
+	if (isDefined('session.Usr')) local.UsrID = session.Usr.UsrID
+	if (isDefined('arg.FieldID')) local.FieldID = arg.FieldID
+	if (isDefined('arg.PrimaryKey')) local.PrimaryKey = arg.PrimaryKey // This could be ascertained
+	if (isDefined('arg.LogVarcharName')) local.LogVarcharName = arg.LogVarcharName
+
+	INSERT INTO LogVarchar(LogVarchar_UsrID,LogVarchar_FieldID,LogVarcharPrimaryKey,LogVarcharName)
+	VALUES(?,?,?,?)
+	params = [
+		 local.UsrID
+		,local.FieldID
+		,local.PrimaryKey
+		,local.LogVarcharName
+	]
+}
+
+
+	local.PrimaryKey = result.GuessID
+	if (result.GuessName != '') {
+		local.FieldID = Variables.GuessNameID
+		local.LogVarcharName = result.GuessName
+		new LogVarchar().Save(local)
+	}
+	if (result.GuessComment != '') {
+		local.FieldID = Variables.GuessCommentID
+		local.LogVarcharName = result.GuessComment
+		new LogVarchar().Save(local)
+	}
+	local.Earned = 0
+	if (result.Earned != local.Earned) {
+		local.FieldID = Variables.EarnedID
+		local.LogIntSort = result.Earned
+		new LogVarchar().Save(local)
+	}
+	
+
+component {
+function Save(arg) {
+	local.UsrID = 0
+	local.FieldID = 0
+	local.PrimaryKey = 0
+	local.LogIntName = ''
+	if (isDefined('session.Usr')) local.UsrID = session.Usr.UsrID
+	if (isDefined('arg.FieldID')) local.FieldID = arg.FieldID
+	if (isDefined('arg.PrimaryKey')) local.PrimaryKey = arg.PrimaryKey // This could be ascertained
+	if (isDefined('arg.LogIntSort')) local.LogIntName = arg.LogIntSort
+
+	INSERT INTO LogInt(LogInt_UsrID,LogInt_FieldID,LogIntPrimaryKey,LogIntName)
+	VALUES(?,?,?,?)
+	params = [
+		 local.UsrID
+		,local.FieldID
+		,local.PrimaryKey
+		,local.LogIntSort
+	]
+}
+}
+
+IF  EXISTS (SELECT * FROM sys.views WHERE object_id = OBJECT_ID(N'AuditView'))
+DROP View AuditView
+GO
+CREATE View AuditView AS
+SELECT *
+FROM Audit
+LEFT JOIN Usr ON Audit_UsrID = UsrID
+LEFT JOIN Act ON Audit_ActID = ActID
+LEFT JOIN Question ON Audit_QuestionID = QuestionID
+LEFT JOIN Answer ON Audit_AnswerID = AnswerID
+LEFT JOIN Assignment ON Audit_AssignmentID = AssignmentID
+LEFT JOIN Paper ON Audit_PaperID = PaperID
+LEFT JOIN Guess ON Audit_GuessID = GuessID
+LEFT JOIN Cat ON Audit_CatID = CatID
+LEFT JOIN Course ON Audit_CourseID = CourseID
+LEFT JOIN Scale ON Audit_ScaleID = ScaleID
+GO
+
+IF  EXISTS (SELECT * FROM sys.views WHERE object_id = OBJECT_ID(N'LogVarcharView'))
+DROP View LogVarcharView
+GO
+Create View LogVarcharView AS
+SELECT *
+FROM LogVarchar
+LEFT  JOIN Usr ON LogVarchar_UsrID = UsrID
+INNER JOIN FieldView ON LogVarchar_FieldID = FieldID
+GO
+IF  EXISTS (SELECT * FROM sys.views WHERE object_id = OBJECT_ID(N'LogIntView'))
+DROP View LogIntView
+GO
+Create View LogIntView AS
+SELECT *
+FROM LogInt
+LEFT  JOIN Usr ON LogInt_UsrID = UsrID
+INNER JOIN FieldView ON LogInt_FieldID = FieldID
+GO
+
+
+IF  EXISTS (SELECT * FROM sys.views WHERE object_id = OBJECT_ID(N'LogUnionView'))
+DROP View LogUnionView
+GO
+CREATE View LogUnionView AS
+SELECT 
+ LogVarcharID AS LogUnionID
+,LogVarcharDateTime AS LogUnionDateTime
+,LogVarchar_UsrID AS LogUnion_UsrID
+,LogVarcharPrimaryKey AS PrimaryKey
+,LogVarcharName AS LogUnionValue
+,FieldID,FieldName
+,TableID,TableName
+,UsrID,UsrName,FirstName,LastName
+FROM LogVarchar
+LEFT JOIN Usr ON LogVarchar_UsrID = UsrID
+JOIN FieldView on LogVarchar_FieldID = FieldID
+UNION ALL
+ LogIntID
+,LogIntDateTime
+,LogInt_UsrID
+,LogInt_FieldID
+,LogIntPrimaryKey
+,LogIntSort
+,FieldID,FieldName
+,TableID,TableName
+,UsrID,UsrName,FirstName,LastName
+FROM LogInt
+LEFT JOIN Usr ON LogInt_UsrID = UsrID
+JOIN FieldView on LogInt_FieldID = FieldID
+GO
+IF  EXISTS (SELECT * FROM sys.views WHERE object_id = OBJECT_ID(N'LogActView'))
+DROP View LogActView
+GO
+CREATE VIEW LogActView
+SELECT *
+FROM LogUnionView
+JOIN Act ON PrimaryKey = ActID
+WHERE TableName = 'Act'
+GO
+IF  EXISTS (SELECT * FROM sys.views WHERE object_id = OBJECT_ID(N'LogQuestionView'))
+DROP View LogQuestionView
+GO
+CREATE VIEW LogQuestionView
+SELECT *
+FROM LogUnionView
+JOIN QuestionView ON PrimaryKey = QuestionID
+WHERE TableName = 'Question'
+GO
+IF  EXISTS (SELECT * FROM sys.views WHERE object_id = OBJECT_ID(N'LogAnswerView'))
+DROP View LogAnswerView
+GO
+CREATE VIEW LogAnswerView
+SELECT *
+FROM LogUnionView
+JOIN AnswerView ON PrimaryKey = AnswerID
+WHERE TableName = 'Answer'
+GO
+IF  EXISTS (SELECT * FROM sys.views WHERE object_id = OBJECT_ID(N'LogAssignmentView'))
+DROP View LogAssignmentView
+GO
+CREATE VIEW LogAssignmentView
+SELECT *
+FROM LogUnionView
+JOIN AssignmentView ON PrimaryKey = AssignmentID
+WHERE TableName = 'Assignment'
+GO
+IF  EXISTS (SELECT * FROM sys.views WHERE object_id = OBJECT_ID(N'LogPaperView'))
+DROP View LogPaperView
+GO
+CREATE VIEW LogPaperView
+SELECT *
+FROM LogUnionView
+JOIN PaperView ON PrimaryKey = PaperID
+WHERE TableName = 'Paper'
+GO
+IF  EXISTS (SELECT * FROM sys.views WHERE object_id = OBJECT_ID(N'LogGuessView'))
+DROP View LogGuessView
+GO
+CREATE VIEW LogGuessView
+SELECT *
+FROM LogUnionView
+JOIN GuessView ON PrimaryKey = GuessID
+WHERE TableName = 'Guess'
+GO
+IF  EXISTS (SELECT * FROM sys.views WHERE object_id = OBJECT_ID(N'LogCatView'))
+DROP View LogCatView
+GO
+CREATE VIEW LogCatView
+SELECT *
+FROM LogUnionView
+JOIN CatView ON PrimaryKey = CatID
+WHERE TableName = 'Cat'
+GO
+IF  EXISTS (SELECT * FROM sys.views WHERE object_id = OBJECT_ID(N'LogCourseView'))
+DROP View LogCourseView
+GO
+CREATE VIEW LogCourseView
+SELECT *
+FROM LogUnionView
+JOIN CourseView ON PrimaryKey = CourseID
+WHERE TableName = 'Course'
+GO
+IF  EXISTS (SELECT * FROM sys.views WHERE object_id = OBJECT_ID(N'LogScaleView'))
+DROP View LogScaleView
+GO
+CREATE VIEW LogScaleView
+SELECT *
+FROM LogUnionView
+JOIN ScaleView ON PrimaryKey = ScaleID
+WHERE TableName = 'Scale'
+GO
+
+
+

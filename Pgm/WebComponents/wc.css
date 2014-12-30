@@ -1,0 +1,10 @@
+#columnA {
+	border-right:1px solid #000;
+}
+textarea {
+	font-family: 'Inconsolata';
+	font-weight:bold;
+}
+.form-control {
+	font-size:16px;
+}
